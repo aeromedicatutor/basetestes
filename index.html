@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Painel de Contratantes • Estático (GitHub Pages)</title>
+<title>Painel de Contratantes</title>
 <meta name="description" content="Painel estático de contratantes e fornecedores alimentado por JSON no próprio repositório.">
 <style>
   /* ===== Reset básico ===== */
@@ -242,7 +242,7 @@ function makeCard(c) {
   const details = createEl("div", {className:"details", id});
   const head = createEl("div", {className:"supplier-head"}, `
     <div><strong>Fornecedor</strong></div>
-    <div><strong>Específico</strong></div>
+    <div><strong>Tipo</strong></div>
     <div><strong>Cidade</strong></div>
     <div><strong>Estados</strong></div>
     <div><strong>Remoções</strong></div>
@@ -316,3 +316,4 @@ load();
 </script>
 </body>
 </html>
+
