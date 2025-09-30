@@ -1,38 +1,27 @@
-[
-  { "nome": "Unimed Nacional", "pct": 20.52, "fornecedores": [
-    { "fornecedor": "Fornecedor 1", "especifico": "Atende todas as linhas", "cidade": ["São Paulo","Osasco"], "estados": ["Todos"], "remocoes": ["UTI Móvel","Aérea"] },
-    { "fornecedor": "Fornecedor 2", "especifico": "Especialidade X", "cidade": "Belo Horizonte", "estados": ["Todos"], "remocoes": 12 }
-  ]},
-  { "nome": "Unimed Sete Lagoas", "pct": 16.74, "fornecedores": [
-    { "fornecedor": "Fornecedor 1", "especifico": "Linha A", "cidades": ["Sete Lagoas"], "estados": ["MG"], "remoções": ["Terrestre"] }
-  ]},
-  { "nome": "Vivest", "pct": 12.17, "fornecedores": []},
-  { "nome": "Unimed Centro Oeste", "pct": 6.99, "fornecedores": []},
-  { "nome": "PASA", "pct": 6.49, "fornecedores": []},
-  { "nome": "UNIMED GOVERNADOR VALADARES", "pct": 4.44, "fornecedores": []},
-  { "nome": "UNIMED SUL MINEIRA", "pct": 3.68, "fornecedores": []},
-  { "nome": "COPAS SAÚDE", "pct": 2.35, "fornecedores": []},
-  { "nome": "UNIMED POÇOS DE CALDAS", "pct": 2.15, "fornecedores": []},
-  { "nome": "CEMIG SAÚDE", "pct": 2.01, "fornecedores": []},
-  { "nome": "UNIMED VARGINHA", "pct": 1.91, "fornecedores": []},
-  { "nome": "UNIMED GERAIS DE MINAS", "pct": 1.81, "fornecedores": []},
-  { "nome": "UNIMED INCONFIDENTES", "pct": 1.71, "fornecedores": []},
-  { "nome": "UNIMED BELO HORIZONTE", "pct": 1.58, "fornecedores": []},
-  { "nome": "UNIMED GUAXUPÉ", "pct": 1.05, "fornecedores": []},
-  { "nome": "UNIMED ALTO SÃO FRANCISCO", "pct": 1.04, "fornecedores": []},
-  { "nome": "UNIMED NOROESTE DE MINAS", "pct": 0.85, "fornecedores": []},
-  { "nome": "UNIMED ARAGUARI", "pct": 0.74, "fornecedores": []},
-  { "nome": "UNIMED CIRCUITO DAS ÁGUAS", "pct": 0.64, "fornecedores": []},
-  { "nome": "UNIMED LAVRAS", "pct": 0.61, "fornecedores": []},
-  { "nome": "ABERTT A SAÚDE", "pct": 0.60, "fornecedores": [
-    { "fornecedor": "Amo Vida", "especifico": "UTI e Básica", "cidade": "Feira de Santana", "estados": ["Bahia"], "remocoes": 2 },
-    { "fornecedor": "Anilmed", "especifico": "UTI e Básica", "cidade": "Belo Horizonte", "estados": ["Minas Gerais"], "remocoes": 5 },
-    { "fornecedor": "Bem Me Care", "especifico": "UTI e Básica", "cidade": "Belo Horizonte", "estados": ["Minas Gerais"], "remocoes": 4 },
-    { "fornecedor": "Bem Me Care", "especifico": "UTI e Básica", "cidade": "Contagem", "estados": ["Minas Gerais"], "remocoes": 4 },
-    { "fornecedor": "Easy Emergências", "especifico": "UTI e Básica", "cidade": "Fortaleza", "estados": ["Ceará"], "remocoes": 6 }
-  ]},
-  { "nome": "UNIMED JUIZ DE FORA", "pct": null, "fornecedores": []}
-]
+{
+  "schema_version": "v1",
+  "contratantes": [
+    {
+      "nome": "UNIMED LAVRAS",
+      "pct": 0.61,
+      "treinado": false,
+      "fornecedores": [
+        {
+          "fornecedor": "Bem Estar Remoções",
+          "especifico": "Remoções",
+          "cidades": ["Lavras"],
+          "estados": ["MG"],
+          "remocoes": ["UTI Móvel"]
+        }
+      ]
+    }
+  ],
+  "fornecedores": [
+    { "nome": "Bem Estar Remoções", "treinado": true,  "cidades": ["Lavras"], "estados": ["MG"] },
+    { "nome": "Medsul",              "treinado": true },
+    { "nome": "XYZ Emergências",     "treinado": false }
+  ]
+}
 
 
 
