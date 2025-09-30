@@ -18,7 +18,7 @@
     { "nome": "UNIMED GUAXUPÉ", "pct": 1.05, "treinado": true, "fornecedores": [] },
     { "nome": "UNIMED ALTO SÃO FRANCISCO", "pct": 1.04, "treinado": true, "fornecedores": [] },
     { "nome": "UNIMED NOROESTE DE MINAS", "pct": 0.85, "treinado": true, "fornecedores": [] },
-    { "nome": "UNIMED ARAGUARI", "pct": 0.74, "treinado": true,, "fornecedores": [] },
+    { "nome": "UNIMED ARAGUARI", "pct": 0.74, "treinado": true, "fornecedores": [] },
     { "nome": "UNIMED CIRCUITO DAS ÁGUAS", "pct": 0.64, "treinado": true, "fornecedores": [] },
     { "nome": "UNIMED LAVRAS", "pct": 0.61, "treinado": false, "fornecedores": [] },
     { "nome": "ABERTTA SAÚDE", "pct": 0.60, "treinado": false, "em_uso": true, "fornecedores": [] },
@@ -279,6 +279,7 @@
     { "nome": "Zelar Mov", "treinado": false }
   ]
 }
+
 
 
 
