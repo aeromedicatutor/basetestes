@@ -3,118 +3,78 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Painel de Contratantes</title>
-<meta name="description" content="Painel estático de contratantes e fornecedores alimentado por JSON no próprio repositório.">
+<title>Painel • Contratantes & Fornecedores</title>
+<meta name="description" content="Painel em duas colunas com contratantes e fornecedores, alimentado por JSON.">
 <style>
-  /* ===== Reset básico ===== */
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body { height: 100%; margin: 0; }
-  body {
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  /* ===== Reset ===== */
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     background:
       radial-gradient(1200px 500px at 10% -10%, #fff4e5 0%, transparent 60%),
       radial-gradient(1000px 500px at 110% 110%, #ffe1c0 0%, transparent 60%),
       #fff7f0;
-    color: #1f2937;
-    line-height: 1.35;
-    padding: 2rem;
+    color:#1f2937; line-height:1.35; padding: 2rem;
   }
 
-  /* ===== Layout em duas ilhas ===== */
-  .grid {
-    max-width: 1200px; margin: 0 auto;
-    display: grid; gap: 18px;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 980px) {
-    .grid { grid-template-columns: 1fr; }
-  }
+  /* ===== Grid de duas ilhas ===== */
+  .grid{max-width:1200px;margin:0 auto;display:grid;gap:18px;grid-template-columns:1fr 1fr}
+  @media (max-width:980px){.grid{grid-template-columns:1fr}}
 
-  .island {
-    background: #fff; border: 1px solid #eef2f7; border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(24,39,75,0.08), 0 2px 8px rgba(24,39,75,0.04);
-    display: grid; grid-template-rows: auto auto 1fr;
-    min-height: 60vh; /* só pra ficar elegante */
+  .island{
+    background:#fff;border:1px solid #eef2f7;border-radius:16px;
+    box-shadow:0 10px 30px rgba(24,39,75,.08),0 2px 8px rgba(24,39,75,.04);
+    display:grid;grid-template-rows:auto auto 1fr;min-height:60vh
   }
+  header.hd{padding:20px 22px 10px;background:linear-gradient(180deg,#ffffff 0%,#fafafa 100%);border-bottom:1px solid #eef2f7}
+  .hd h2{margin:0;font-weight:800;letter-spacing:-.02em;font-size:clamp(1.0rem,.8rem + .8vw,1.5rem)}
 
-  header.hd {
-    padding: 20px 22px 10px;
-    background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-    border-bottom: 1px solid #eef2f7;
-  }
-  .hd h2 {
-    margin: 0; font-weight: 800; letter-spacing: -0.02em;
-    font-size: clamp(1.0rem, 0.8rem + 0.8vw, 1.5rem);
-  }
-  .subsearch {
-    display: flex; gap: .6rem; align-items: center;
-    padding: 10px 22px; border-bottom: 1px solid #eef2f7;
-  }
-  .subsearch .box {
-    flex:1; display:flex; gap:.5rem; align-items:center;
-    background:#f3f4f6; border:1px solid #e5e7eb; border-radius:12px; padding:.6rem .8rem;
-  }
-  .subsearch input {
-    width:100%; border:0; background:transparent; outline:none; font-size:.95rem;
-  }
-  .subsearch small { color:#6b7280; }
+  .subsearch{display:flex;gap:.6rem;align-items:center;padding:10px 22px;border-bottom:1px solid #eef2f7}
+  .subsearch .box{flex:1;display:flex;gap:.5rem;align-items:center;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:12px;padding:.6rem .8rem}
+  .subsearch input{width:100%;border:0;background:transparent;outline:none;font-size:.95rem}
+  .subsearch small{color:#6b7280}
 
-  main.list {
-    padding: 14px 16px 18px; overflow: auto;
-  }
+  main.list{padding:14px 16px 18px;overflow:auto}
 
   /* ===== Card ===== */
-  .card {
-    border: 1px solid #eef2f7; border-radius: 14px; background: #fff;
-    padding: 12px 12px 10px; margin-bottom: 12px;
-  }
-  .row { display: grid; grid-template-columns: 1fr auto; gap: .75rem; align-items: center; }
-  .row h3 { margin: 0; font-size: 1rem; letter-spacing: -0.01em; display:flex; align-items:center; gap:.5rem; }
+  .card{border:1px solid #eef2f7;border-radius:14px;background:#fff;padding:12px 12px 10px;margin-bottom:12px}
+  .row{display:grid;grid-template-columns:1fr auto;gap:.75rem;align-items:center}
+  .row h3{margin:0;font-size:1rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.5rem}
 
-  /* Bolinha de status */
-  .dot {
-    width: .55rem; height: .55rem; border-radius: 999px; display:inline-block;
-    box-shadow: 0 0 0 2px #fff;
-  }
-  .ok { background: #10b981; }     /* Treinado (verde) */
-  .no { background: #ef4444; }     /* Não Treinado (vermelho) */
+  /* Status bolinha + rótulo */
+  .dot{width:.55rem;height:.55rem;border-radius:999px;display:inline-block;box-shadow:0 0 0 2px #fff}
+  .ok{background:#10b981} /* Treinado */
+  .no{background:#ef4444} /* Não treinado */
+  .status-label{font-size:.78rem;font-weight:700;margin-right:.25rem}
+  .status-label.ok{color:#10b981}
+  .status-label.no{color:#ef4444}
 
-  /* Badge de % somente nos contratantes */
-  .badge {
-    font-variant-numeric: tabular-nums;
-    background: #ecfdf5; color: #065f46; border: 1px solid #d1fae5;
-    padding: .25rem .5rem; border-radius: 999px; font-size: .85rem; font-weight:700;
-  }
+  /* Badge de % */
+  .badge{font-variant-numeric:tabular-nums;background:#ecfdf5;color:#065f46;border:1px solid #d1fae5;
+    padding:.25rem .5rem;border-radius:999px;font-size:.85rem;font-weight:700}
 
-  .toggle { border: 1px solid #e5e7eb; background: #fff; border-radius: 10px; padding: .35rem .55rem; cursor: pointer; font-weight: 700; min-width: 2.1rem; text-align: center; }
-  .progress { height: 8px; background: #f3f4f6; border-radius: 999px; overflow: hidden; margin-top: 8px; }
-  .bar { height: 100%; width: 0%; background: linear-gradient(90deg, #4ade80, #16a34a); transition: width .5s ease; }
+  .toggle{border:1px solid #e5e7eb;background:#fff;border-radius:10px;padding:.35rem .55rem;cursor:pointer;font-weight:700;min-width:2.1rem;text-align:center}
+  .progress{height:8px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin-top:8px}
+  .bar{height:100%;width:0%;background:linear-gradient(90deg,#4ade80,#16a34a);transition:width .5s ease}
 
-  .details { display:none; padding-top: 10px; border-top: 1px dashed #e5e7eb; margin-top: 10px; }
-  .details.open { display:block; }
+  .details{display:none;padding-top:10px;border-top:1px dashed #e5e7eb;margin-top:10px}
+  .details.open{display:block}
 
-  /* Tabelinha (Fornecedor dentro do Contratante) */
-  .supplier-head, .supplier-row {
-    display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr; gap: .6rem; align-items: start;
-  }
-  .supplier-head { font-size:.85rem; color:#6b7280; margin-bottom:.4rem; }
-  .supplier-row + .supplier-row { margin-top: .5rem; }
-  .chip {
-    display:inline-block; padding:.2rem .5rem; border-radius:999px; font-size:.8rem;
-    background:#f3f4f6; border:1px solid #e5e7eb; margin-right:.35rem; margin-bottom:.35rem; white-space:nowrap;
-  }
-  .btn-supplier {
-    display:inline-flex; align-items:center; justify-content:center;
-    padding:.45rem .9rem; background:#059669; color:#fff; border-radius:10px; font-weight:700; pointer-events:none;
-  }
+  /* Tabela de fornecedores dentro do contratante */
+  .supplier-head,.supplier-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;gap:.6rem;align-items:start}
+  .supplier-head{font-size:.85rem;color:#6b7280;margin-bottom:.4rem}
+  .supplier-row + .supplier-row{margin-top:.5rem}
+  .chip{display:inline-block;padding:.2rem .5rem;border-radius:999px;font-size:.8rem;background:#f3f4f6;border:1px solid #e5e7eb;margin-right:.35rem;margin-bottom:.35rem;white-space:nowrap}
+  .btn-supplier{display:inline-flex;align-items:center;justify-content:center;padding:.45rem .9rem;background:#059669;color:#fff;border-radius:10px;font-weight:700;pointer-events:none}
 
-  .empty { color:#6b7280; font-size:.95rem; padding:.5rem 0; }
-  .error { background:#fef2f2; color:#7f1d1d; border:1px solid #fee2e2; padding:.75rem 1rem; border-radius:10px; margin:12px 0; }
+  .empty{color:#6b7280;font-size:.95rem;padding:.5rem 0}
+  .error{background:#fef2f2;color:#7f1d1d;border:1px solid #fee2e2;padding:.75rem 1rem;border-radius:10px;margin:12px 0}
 </style>
 </head>
 <body>
 
-  <div class="grid" role="region" aria-label="Painel em duas ilhas">
+  <div class="grid" role="region" aria-label="Painel em duas colunas">
     <!-- ===== ILHA: CONTRATANTES ===== -->
     <section class="island" aria-label="Contratantes">
       <header class="hd"><h2>Contratantes</h2></header>
@@ -122,7 +82,10 @@
         <div class="box">🔎 <input id="qContr" placeholder="Pesquisar contratante…" /></div>
         <small id="countContr"></small>
       </div>
-      <main class="list"><div id="listContr"></div><div id="errContr"></div></main>
+      <main class="list">
+        <div id="listContr"></div>
+        <div id="errContr"></div>
+      </main>
     </section>
 
     <!-- ===== ILHA: FORNECEDORES ===== -->
@@ -132,67 +95,94 @@
         <div class="box">🔎 <input id="qForn" placeholder="Pesquisar fornecedor…" /></div>
         <small id="countForn"></small>
       </div>
-      <main class="list"><div id="listForn"></div><div id="errForn"></div></main>
+      <main class="list">
+        <div id="topForn"></div>     <!-- Top fornecedores com barra -->
+        <div id="listForn"></div>    <!-- Demais fornecedores -->
+        <div id="errForn"></div>
+      </main>
     </section>
   </div>
 
 <script>
-/* ===== Config ===== */
-const DATA_VERSION = "v4";
-/* Se usar meu arquivo gerado, coloque o caminho dele abaixo:
-   Ex.: const DATA_URL = "data/app_data.json?v=..." ou "app_data_v4.json?v=..."
-*/
+/* ===== Config =====
+   Edite o caminho abaixo se seu JSON estiver em outro local/nome. */
+const DATA_VERSION = "v5";
 const DATA_URL = `data/app_data.json?v=${encodeURIComponent(DATA_VERSION)}`;
 
-/* ===== Utils ===== */
-function parsePct(v){ if(v==null||v==="----")return null; if(typeof v==="number")return v;
-  const s=String(v).replace("%","").replace(",",".").trim(); const n=Number(s); return Number.isFinite(n)?n:null; }
-
-function createEl(tag, props={}, html=""){ const el=document.createElement(tag);
-  Object.entries(props).forEach(([k,v])=>{ if(k==="className")el.className=v; else if(k in el) el[k]=v; else el.setAttribute(k,v); });
-  if(html) el.innerHTML=html; return el; }
-
-const toArray = (val) => { if(val==null||val==="")return []; if(Array.isArray(val))return val;
-  return String(val).split(",").map(s=>s.trim()).filter(Boolean); };
+/* ===== Helpers ===== */
+function parsePct(val){
+  if(val===null||val===undefined||val==="----") return null;
+  if(typeof val==="number") return val;
+  const s = String(val).replace("%","").replace(",",".").trim();
+  const n = Number(s); return Number.isFinite(n)? n : null;
+}
+function createEl(tag, props={}, html=""){
+  const el=document.createElement(tag);
+  Object.entries(props).forEach(([k,v])=>{
+    if(k==="className") el.className=v;
+    else if(k in el) el[k]=v;
+    else el.setAttribute(k,v);
+  });
+  if(html) el.innerHTML = html;
+  return el;
+}
+const toArray = (val)=>{ if(val==null||val==="")return []; if(Array.isArray(val))return val; return String(val).split(",").map(s=>s.trim()).filter(Boolean); };
 const chipHtml = (arr)=> (arr.length? arr.map(x=>`<span class="chip">${x}</span>`).join("") : `<span class="chip">—</span>`);
-
 const hasReembolso = (s)=> /reembolso/i.test(String(s||""));
 
 /* ===== Estado ===== */
-let CONTRATANTES=[], FORNECEDORES=[];
+let CONTRATANTES=[], FORNECEDORES=[], FORNECEDORES_TOP=[];
 
-/* ===== RENDER: Contratantes ===== */
+/* ===== CONTRATANTES ===== */
 const listContr = document.getElementById("listContr");
 const countContr = document.getElementById("countContr");
+
 function renderContratantes(q=""){
   listContr.innerHTML="";
   const term = q.trim().toLowerCase();
-  // ordenar por pct desc
-  const arr = [...CONTRATANTES].sort((a,b)=>{
-    const ap=parsePct(a.pct), bp=parsePct(b.pct);
-    if(ap==null && bp==null) return a.nome.localeCompare(b.nome);
-    if(ap==null) return 1; if(bp==null) return -1; return bp-ap;
-  }).filter(c=>!hasReembolso(c.nome) && (!term || c.nome.toLowerCase().includes(term)));
+  const arr = [...CONTRATANTES]
+    .filter(c=>!hasReembolso(c.nome) && (!term || c.nome.toLowerCase().includes(term)))
+    .sort((a,b)=>{
+      const ap=parsePct(a.pct), bp=parsePct(b.pct);
+      if(ap==null && bp==null) return a.nome.localeCompare(b.nome);
+      if(ap==null) return 1; if(bp==null) return -1; return bp-ap;
+    });
 
   countContr.textContent = `${arr.length} contratante${arr.length===1?"":"s"}`;
 
-  if(!arr.length){ listContr.appendChild(createEl("div",{className:"empty"},"Nenhum contratante encontrado.")); return; }
-
+  if(!arr.length){
+    listContr.appendChild(createEl("div",{className:"empty"},"Nenhum contratante encontrado."));
+    return;
+  }
   arr.forEach(c=> listContr.appendChild(makeContrCard(c)));
 }
 
 function makeContrCard(c){
-  const pct=parsePct(c.pct); const id="ctr_"+btoa(c.nome).replace(/=/g,"");
-  const card=createEl("div",{className:"card", role:"region","aria-label":c.nome});
+  const pct=parsePct(c.pct);
+  const id="ctr_"+btoa(c.nome).replace(/=/g,"");
+  const card=createEl("div",{className:"card",role:"region","aria-label":c.nome});
+
+  const statusClass = c.treinado ? "ok" : "no";
+  const statusLabel = c.treinado ? "Treinado" : "Não treinado";
+
   const row=createEl("div",{className:"row"});
-  const title=createEl("h3",{},`<span class="dot ${c.treinado?"ok":"no"}" title="${c.treinado?"Treinado":"Não treinado"}"></span>${c.nome}`);
-  const meta=createEl("div",{}); const badge=createEl("span",{className:"badge"}, pct==null?"—":pct.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})+"%");
-  const toggle=createEl("button",{className:"toggle","aria-controls":id,"aria-expanded":"false"},"+");
-  meta.appendChild(badge); meta.appendChild(toggle); row.appendChild(title); row.appendChild(meta);
+  row.innerHTML = `
+    <h3>
+      <span class="dot ${statusClass}"></span>
+      <span class="status-label ${statusClass}">${statusLabel}</span>
+      ${c.nome}
+    </h3>
+    <div>
+      <span class="badge">${pct==null?"—":pct.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%</span>
+      <button class="toggle" aria-controls="${id}" aria-expanded="false">+</button>
+    </div>
+  `;
 
-  const progress=createEl("div",{className:"progress"}); const bar=createEl("div",{className:"bar"}); progress.appendChild(bar);
+  const progress=createEl("div",{className:"progress"});
+  const bar=createEl("div",{className:"bar"});
+  progress.appendChild(bar);
 
-  const details=createEl("div",{className:"details", id});
+  const details=createEl("div",{className:"details",id});
   const head=createEl("div",{className:"supplier-head"},`
     <div><strong>Fornecedor</strong></div>
     <div><strong>Tipo</strong></div>
@@ -204,106 +194,201 @@ function makeContrCard(c){
 
   if(Array.isArray(c.fornecedores) && c.fornecedores.length){
     c.fornecedores.forEach(grupo=>{
-      const fornecedor=String(grupo.fornecedor??"").trim()||"—";
-      const especifico=String(grupo.especifico??"").trim()||"—";
-      const cidades=toArray(grupo.cidade ?? grupo.cidades);
-      const estados=toArray(grupo.estados);
+      const fornecedor = String(grupo.fornecedor??"").trim()||"—";
+      const especifico = String(grupo.especifico??"").trim()||"—";
+      const cidades = toArray(grupo.cidade ?? grupo.cidades);
+      const estados = toArray(grupo.estados);
       const remRaw = (grupo.remocoes !== undefined ? grupo.remocoes : grupo["remoções"]);
       const remArr = Array.isArray(remRaw)? remRaw : toArray(remRaw);
       const remHtml = Number.isFinite(remRaw)? `<span class="chip">${remRaw}</span>` : chipHtml(remArr);
 
-      const row=createEl("div",{className:"supplier-row"});
-      row.innerHTML=`
+      const r=createEl("div",{className:"supplier-row"});
+      r.innerHTML = `
         <div><span class="btn-supplier">${fornecedor}</span></div>
         <div>${especifico||"—"}</div>
         <div>${chipHtml(cidades)}</div>
         <div>${chipHtml(estados)}</div>
         <div>${remHtml}</div>
       `;
-      details.appendChild(row);
+      details.appendChild(r);
     });
   } else {
     details.appendChild(createEl("div",{className:"empty"},"Nenhum fornecedor cadastrado neste contratante."));
   }
 
-  // montagem
-  card.appendChild(row); card.appendChild(progress); card.appendChild(details);
+  card.appendChild(row);
+  card.appendChild(progress);
+  card.appendChild(details);
+
   requestAnimationFrame(()=>{ bar.style.width = (pct==null?0:Math.max(0,Math.min(100,pct)))+"%"; });
-  toggle.addEventListener("click",()=>{
-    const open=details.classList.toggle("open"); toggle.textContent=open?"–":"+"; toggle.setAttribute("aria-expanded",String(open));
+
+  const toggleBtn = row.querySelector(".toggle");
+  toggleBtn.addEventListener("click", ()=>{
+    const open = details.classList.toggle("open");
+    toggleBtn.textContent = open ? "–" : "+";
+    toggleBtn.setAttribute("aria-expanded", String(open));
   });
+
   return card;
 }
 
-/* ===== RENDER: Fornecedores ===== */
+/* ===== FORNECEDORES (TOP + demais) ===== */
+const topWrap = document.getElementById("topForn");
 const listForn = document.getElementById("listForn");
 const countForn = document.getElementById("countForn");
+
+function renderTopFornecedores(){
+  topWrap.innerHTML = "";
+  if(!FORNECEDORES_TOP.length) return;
+
+  FORNECEDORES_TOP
+    .filter(f=>!hasReembolso(f.nome))
+    .sort((a,b)=>{
+      const ap=parsePct(a.pct), bp=parsePct(b.pct);
+      if(ap==null && bp==null) return a.nome.localeCompare(b.nome);
+      if(ap==null) return 1; if(bp==null) return -1; return bp-ap;
+    })
+    .forEach(f=>{
+      const pct=parsePct(f.pct);
+      const id="top_"+btoa(f.nome).replace(/=/g,"");
+
+      const statusClass = f.treinado ? "ok" : "no";
+      const statusLabel = f.treinado ? "Treinado" : "Não treinado";
+
+      const card=createEl("div",{className:"card"});
+      const row=createEl("div",{className:"row"});
+      row.innerHTML = `
+        <h3>
+          <span class="dot ${statusClass}"></span>
+          <span class="status-label ${statusClass}">${statusLabel}</span>
+          ${f.nome}
+        </h3>
+        <div>
+          <span class="badge">${pct==null?"—":pct.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%</span>
+          <button class="toggle" aria-controls="${id}" aria-expanded="false">+</button>
+        </div>
+      `;
+      const progress=createEl("div",{className:"progress"});
+      const bar=createEl("div",{className:"bar"});
+      progress.appendChild(bar);
+
+      const details=createEl("div",{className:"details",id});
+      // Detalhes opcionais (preencha no JSON se quiser)
+      const bloco=[];
+      if(f.tipo) bloco.push(`<div><strong>Tipo:</strong> ${f.tipo}</div>`);
+      if(f.cidade||f.cidades) bloco.push(`<div><strong>Cidade:</strong> ${chipHtml(toArray(f.cidade??f.cidades))}</div>`);
+      if(f.estados) bloco.push(`<div><strong>Estados:</strong> ${chipHtml(toArray(f.estados))}</div>`);
+      if(f.remocoes||f["remoções"]){
+        const raw=f.remocoes??f["remoções"]; const arr=Array.isArray(raw)?raw:toArray(raw);
+        bloco.push(`<div><strong>Remoções:</strong> ${Number.isFinite(raw)? `<span class="chip">${raw}</span>` : chipHtml(arr)}</div>`);
+      }
+      details.innerHTML = bloco.length? bloco.join("") : `<div class="empty">Sem detalhes cadastrados.</div>`;
+
+      card.appendChild(row);
+      card.appendChild(progress);
+      card.appendChild(details);
+      topWrap.appendChild(card);
+
+      requestAnimationFrame(()=>{ bar.style.width = (pct==null?0:Math.max(0,Math.min(100,pct)))+"%"; });
+
+      const toggleBtn = row.querySelector(".toggle");
+      toggleBtn.addEventListener("click", ()=>{
+        const open = details.classList.toggle("open");
+        toggleBtn.textContent = open ? "–" : "+";
+        toggleBtn.setAttribute("aria-expanded", String(open));
+      });
+    });
+}
+
 function renderFornecedores(q=""){
   listForn.innerHTML="";
   const term = q.trim().toLowerCase();
+  const topSet = new Set(FORNECEDORES_TOP.map(f=>f.nome.toLowerCase()));
+
   const arr = [...FORNECEDORES]
-    .filter(f=>!hasReembolso(f.nome) && (!term || f.nome.toLowerCase().includes(term)))
+    .filter(f=> !hasReembolso(f.nome) && !topSet.has(f.nome.toLowerCase()) && (!term || f.nome.toLowerCase().includes(term)))
     .sort((a,b)=> (a.treinado===b.treinado ? a.nome.localeCompare(b.nome) : (a.treinado? -1:1)));
 
-  countForn.textContent = `${arr.length} fornecedor${arr.length===1?"":"es"}`;
+  countForn.textContent = `${arr.length + FORNECEDORES_TOP.length} fornecedor${arr.length + FORNECEDORES_TOP.length === 1 ? "" : "es"}`;
 
-  if(!arr.length){ listForn.appendChild(createEl("div",{className:"empty"},"Nenhum fornecedor encontrado.")); return; }
-
+  if(!arr.length){
+    listForn.appendChild(createEl("div",{className:"empty"},"Nenhum fornecedor encontrado na lista geral."));
+    return;
+  }
   arr.forEach(f=> listForn.appendChild(makeFornCard(f)));
 }
 
 function makeFornCard(f){
   const id="frn_"+btoa(f.nome).replace(/=/g,"");
-  const card=createEl("div",{className:"card", role:"region","aria-label":f.nome});
-  const row=createEl("div",{className:"row"});
-  const title=createEl("h3",{},`<span class="dot ${f.treinado?"ok":"no"}" title="${f.treinado?"Treinado":"Não treinado"}"></span>${f.nome}`);
-  const toggle=createEl("button",{className:"toggle","aria-controls":id,"aria-expanded":"false"},"+");
-  row.appendChild(title); row.appendChild(toggle);
+  const card=createEl("div",{className:"card",role:"region","aria-label":f.nome});
 
-  const details=createEl("div",{className:"details", id});
-  // Exibe campos opcionais se existirem no JSON
-  const bloco = [];
+  const statusClass = f.treinado ? "ok" : "no";
+  const statusLabel = f.treinado ? "Treinado" : "Não treinado";
+
+  const row=createEl("div",{className:"row"});
+  row.innerHTML = `
+    <h3>
+      <span class="dot ${statusClass}"></span>
+      <span class="status-label ${statusClass}">${statusLabel}</span>
+      ${f.nome}
+    </h3>
+    <button class="toggle" aria-controls="${id}" aria-expanded="false">+</button>
+  `;
+
+  const details=createEl("div",{className:"details",id});
+  const bloco=[];
   if(f.tipo) bloco.push(`<div><strong>Tipo:</strong> ${f.tipo}</div>`);
   if(f.cidade||f.cidades) bloco.push(`<div><strong>Cidade:</strong> ${chipHtml(toArray(f.cidade??f.cidades))}</div>`);
   if(f.estados) bloco.push(`<div><strong>Estados:</strong> ${chipHtml(toArray(f.estados))}</div>`);
-  if(f.remocoes || f["remoções"]) {
-    const raw=f.remocoes ?? f["remoções"]; const arr=Array.isArray(raw)?raw:toArray(raw);
+  if(f.remocoes||f["remoções"]){
+    const raw=f.remocoes??f["remoções"]; const arr=Array.isArray(raw)?raw:toArray(raw);
     bloco.push(`<div><strong>Remoções:</strong> ${Number.isFinite(raw)? `<span class="chip">${raw}</span>` : chipHtml(arr)}</div>`);
   }
   details.innerHTML = bloco.length? bloco.join("") : `<div class="empty">Sem detalhes cadastrados para este fornecedor.</div>`;
 
-  card.appendChild(row); card.appendChild(details);
-  toggle.addEventListener("click",()=>{
-    const open=details.classList.toggle("open"); toggle.textContent=open?"–":"+"; toggle.setAttribute("aria-expanded",String(open));
+  card.appendChild(row);
+  card.appendChild(details);
+
+  const toggleBtn = row.querySelector(".toggle");
+  toggleBtn.addEventListener("click", ()=>{
+    const open = details.classList.toggle("open");
+    toggleBtn.textContent = open ? "–" : "+";
+    toggleBtn.setAttribute("aria-expanded", String(open));
   });
+
   return card;
 }
 
-/* ===== Carregar JSON unificado ===== */
+/* ===== Carregar JSON ===== */
 async function load(){
   try{
     const res = await fetch(DATA_URL, {cache:"no-store"});
     if(!res.ok) throw new Error(`Falha ao carregar dados (${res.status})`);
     const json = await res.json();
-    // Aceita novo formato {contratantes:[], fornecedores:[]} ou o antigo (array de contratantes)
+
+    // Aceita {contratantes:[], fornecedores_top:[], fornecedores:[]} ou legado (apenas contratantes[])
     if(Array.isArray(json)){
       CONTRATANTES = json;
+      FORNECEDORES_TOP = [];
       FORNECEDORES = [];
-    } else {
+    }else{
       CONTRATANTES = Array.isArray(json.contratantes) ? json.contratantes : [];
+      FORNECEDORES_TOP = Array.isArray(json.fornecedores_top) ? json.fornecedores_top : [];
       FORNECEDORES = Array.isArray(json.fornecedores) ? json.fornecedores : [];
     }
-    renderContratantes(document.getElementById("qContr").value||"");
+
+    renderTopFornecedores();
     renderFornecedores(document.getElementById("qForn").value||"");
+    renderContratantes(document.getElementById("qContr").value||"");
   }catch(e){
     document.getElementById("errContr").appendChild(createEl("div",{className:"error"},"Erro ao carregar dados: "+e.message));
     document.getElementById("errForn").appendChild(createEl("div",{className:"error"},"Erro ao carregar dados: "+e.message));
   }
 }
 
-/* ===== Eventos dos campos de busca ===== */
-document.getElementById("qContr").addEventListener("input", (e)=> renderContratantes(e.target.value));
-document.getElementById("qForn").addEventListener("input", (e)=> renderFornecedores(e.target.value));
+/* ===== Buscas ===== */
+document.getElementById("qContr").addEventListener("input",(e)=>renderContratantes(e.target.value));
+document.getElementById("qForn").addEventListener("input",(e)=>renderFornecedores(e.target.value));
 
 load();
 </script>
