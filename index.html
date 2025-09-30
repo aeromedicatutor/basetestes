@@ -42,14 +42,16 @@
   .row{display:grid;grid-template-columns:1fr auto;gap:.75rem;align-items:center}
   .row h3{margin:0;font-size:1rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.5rem}
 
-  /* Status bolinha + rótulo */
+  /* Status: bolinha + rótulo */
   .dot{width:.55rem;height:.55rem;border-radius:999px;display:inline-block;box-shadow:0 0 0 2px #fff}
-  .dot.ok{background:#10b981}/* Treinado */
-  .dot.no{background:#ef4444}/* Não treinado */
-  .status-label{background:transparent}
-  .status-label{font-size:.78rem;font-weight:700;margin-right:.25rem}
-  .status-label.ok{color:#10b981}
+  .dot.no{background:#ef4444}   /* Não treinado */
+  .dot.ok{background:#10b981}   /* Treinado */
+  .dot.use{background:#3b82f6}  /* Em uso */
+
+  .status-label{font-size:.78rem;font-weight:700;margin-right:.25rem;background:transparent}
   .status-label.no{color:#ef4444}
+  .status-label.ok{color:#10b981}
+  .status-label.use{color:#3b82f6}
 
   /* Badge de % */
   .badge{font-variant-numeric:tabular-nums;background:#ecfdf5;color:#065f46;border:1px solid #d1fae5;
@@ -105,9 +107,8 @@
   </div>
 
 <script>
-/* ===== Config =====
-   Edite o caminho abaixo se seu JSON estiver em outro local/nome. */
-const DATA_VERSION = "v5";
+/* ===== Config ===== */
+const DATA_VERSION = "v6";
 const DATA_URL = `data/app_data.json?v=${encodeURIComponent(DATA_VERSION)}`;
 
 /* ===== Helpers ===== */
@@ -130,6 +131,13 @@ function createEl(tag, props={}, html=""){
 const toArray = (val)=>{ if(val==null||val==="")return []; if(Array.isArray(val))return val; return String(val).split(",").map(s=>s.trim()).filter(Boolean); };
 const chipHtml = (arr)=> (arr.length? arr.map(x=>`<span class="chip">${x}</span>`).join("") : `<span class="chip">—</span>`);
 const hasReembolso = (s)=> /reembolso/i.test(String(s||""));
+
+/* Novo: status composto a partir de em_uso e treinado */
+function statusInfo(obj){
+  if (obj && obj.em_uso) return { cls: "use", label: "Em uso" };
+  if (obj && obj.treinado) return { cls: "ok", label: "Treinado" };
+  return { cls: "no", label: "Não treinado" };
+}
 
 /* ===== Estado ===== */
 let CONTRATANTES=[], FORNECEDORES=[], FORNECEDORES_TOP=[];
@@ -163,14 +171,13 @@ function makeContrCard(c){
   const id="ctr_"+btoa(c.nome).replace(/=/g,"");
   const card=createEl("div",{className:"card",role:"region","aria-label":c.nome});
 
-  const statusClass = c.treinado ? "ok" : "no";
-  const statusLabel = c.treinado ? "Treinado" : "Não treinado";
+  const st = statusInfo(c);
 
   const row=createEl("div",{className:"row"});
   row.innerHTML = `
     <h3>
-      <span class="dot ${statusClass}"></span>
-      <span class="status-label ${statusClass}">${statusLabel}</span>
+      <span class="dot ${st.cls}"></span>
+      <span class="status-label ${st.cls}">${st.label}</span>
       ${c.nome}
     </h3>
     <div>
@@ -253,15 +260,14 @@ function renderTopFornecedores(){
       const pct=parsePct(f.pct);
       const id="top_"+btoa(f.nome).replace(/=/g,"");
 
-      const statusClass = f.treinado ? "ok" : "no";
-      const statusLabel = f.treinado ? "Treinado" : "Não treinado";
+      const st = statusInfo(f);
 
       const card=createEl("div",{className:"card"});
       const row=createEl("div",{className:"row"});
       row.innerHTML = `
         <h3>
-          <span class="dot ${statusClass}"></span>
-          <span class="status-label ${statusClass}">${statusLabel}</span>
+          <span class="dot ${st.cls}"></span>
+          <span class="status-label ${st.cls}">${st.label}</span>
           ${f.nome}
         </h3>
         <div>
@@ -274,7 +280,6 @@ function renderTopFornecedores(){
       progress.appendChild(bar);
 
       const details=createEl("div",{className:"details",id});
-      // Detalhes opcionais (preencha no JSON se quiser)
       const bloco=[];
       if(f.tipo) bloco.push(`<div><strong>Tipo:</strong> ${f.tipo}</div>`);
       if(f.cidade||f.cidades) bloco.push(`<div><strong>Cidade:</strong> ${chipHtml(toArray(f.cidade??f.cidades))}</div>`);
@@ -308,7 +313,14 @@ function renderFornecedores(q=""){
 
   const arr = [...FORNECEDORES]
     .filter(f=> !hasReembolso(f.nome) && !topSet.has(f.nome.toLowerCase()) && (!term || f.nome.toLowerCase().includes(term)))
-    .sort((a,b)=> (a.treinado===b.treinado ? a.nome.localeCompare(b.nome) : (a.treinado? -1:1)));
+    .sort((a,b)=> {
+      const ai = statusInfo(a), bi = statusInfo(b);
+      if (ai.cls !== bi.cls) { // Em uso (use) antes, depois ok, depois no
+        const order = { "use": 0, "ok": 1, "no": 2 };
+        return order[ai.cls] - order[bi.cls];
+      }
+      return a.nome.localeCompare(b.nome);
+    });
 
   countForn.textContent = `${arr.length + FORNECEDORES_TOP.length} fornecedor${arr.length + FORNECEDORES_TOP.length === 1 ? "" : "es"}`;
 
@@ -323,14 +335,13 @@ function makeFornCard(f){
   const id="frn_"+btoa(f.nome).replace(/=/g,"");
   const card=createEl("div",{className:"card",role:"region","aria-label":f.nome});
 
-  const statusClass = f.treinado ? "ok" : "no";
-  const statusLabel = f.treinado ? "Treinado" : "Não treinado";
+  const st = statusInfo(f);
 
   const row=createEl("div",{className:"row"});
   row.innerHTML = `
     <h3>
-      <span class="dot ${statusClass}"></span>
-      <span class="status-label ${statusClass}">${statusLabel}</span>
+      <span class="dot ${st.cls}"></span>
+      <span class="status-label ${st.cls}">${st.label}</span>
       ${f.nome}
     </h3>
     <button class="toggle" aria-controls="${id}" aria-expanded="false">+</button>
@@ -367,11 +378,8 @@ async function load(){
     if(!res.ok) throw new Error(`Falha ao carregar dados (${res.status})`);
     const json = await res.json();
 
-    // Aceita {contratantes:[], fornecedores_top:[], fornecedores:[]} ou legado (apenas contratantes[])
     if(Array.isArray(json)){
-      CONTRATANTES = json;
-      FORNECEDORES_TOP = [];
-      FORNECEDORES = [];
+      CONTRATANTES = json; FORNECEDORES_TOP = []; FORNECEDORES = [];
     }else{
       CONTRATANTES = Array.isArray(json.contratantes) ? json.contratantes : [];
       FORNECEDORES_TOP = Array.isArray(json.fornecedores_top) ? json.fornecedores_top : [];
@@ -395,4 +403,3 @@ load();
 </script>
 </body>
 </html>
-
