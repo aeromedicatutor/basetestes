@@ -4,10 +4,10 @@
     { "nome": "Unimed Nacional", "pct": 20.52, "treinado": false, "fornecedores": [] },
     { "nome": "Unimed Sete Lagoas", "pct": 16.74, "treinado": false, "fornecedores": [] },
     { "nome": "Vivest", "pct": 12.17, "treinado": false, "fornecedores": [] },
-    { "nome": "Unimed Centro Oeste", "pct": 6.99, "treinado": false, "fornecedores": [] },
+    { "nome": "Unimed Centro Oeste", "pct": 6.99, "treinado": false, "em_uso": true, "fornecedores": [] },
     { "nome": "PASA", "pct": 6.49, "treinado": false, "fornecedores": [] },
     { "nome": "UNIMED GOVERNADOR VALADARES", "pct": 4.44, "treinado": false, "fornecedores": [] },
-    { "nome": "UNIMED SUL MINEIRA", "pct": 3.68, "treinado": false, "fornecedores": [] },
+    { "nome": "UNIMED SUL MINEIRA", "pct": 3.68, "treinado": true, "em_uso": true, "fornecedores": [] },
     { "nome": "COPAS SAÚDE", "pct": 2.35, "treinado": false, "fornecedores": [] },
     { "nome": "UNIMED POÇOS DE CALDAS", "pct": 2.15, "treinado": false, "fornecedores": [] },
     { "nome": "CEMIG SAÚDE", "pct": 2.01, "treinado": false, "fornecedores": [] },
@@ -21,7 +21,7 @@
     { "nome": "UNIMED ARAGUARI", "pct": 0.74, "treinado": false, "fornecedores": [] },
     { "nome": "UNIMED CIRCUITO DAS ÁGUAS", "pct": 0.64, "treinado": false, "fornecedores": [] },
     { "nome": "UNIMED LAVRAS", "pct": 0.61, "treinado": false, "fornecedores": [] },
-    { "nome": "ABERTTA SAÚDE", "pct": 0.60, "treinado": false, "fornecedores": [] },
+    { "nome": "ABERTTA SAÚDE", "pct": 0.60, "treinado": false, "em_uso": true, "fornecedores": [] },
     { "nome": "UNIMED JUIZ DE FORA", "pct": null, "treinado": false, "fornecedores": [] }
   ],
   "fornecedores_top": [
@@ -279,6 +279,7 @@
     { "nome": "Zelar Mov", "treinado": false }
   ]
 }
+
 
 
 
