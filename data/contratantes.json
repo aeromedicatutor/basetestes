@@ -24,6 +24,12 @@
   { "nome": "UNIMED ARAGUARI", "pct": 0.74, "fornecedores": []},
   { "nome": "UNIMED CIRCUITO DAS ÁGUAS", "pct": 0.64, "fornecedores": []},
   { "nome": "UNIMED LAVRAS", "pct": 0.61, "fornecedores": []},
-  { "nome": "ABERTTA SAÚDE", "pct": 0.60, "fornecedores": []},
+  { "nome": "ABERTT A SAÚDE", "pct": 0.60, "fornecedores": [
+    { "fornecedor": "Amo Vida", "especifico": "UTI e Básica", "cidade": "Feira de Santana", "estados": ["Bahia"], "remocoes": 2 },
+    { "fornecedor": "Anilmed", "especifico": "UTI e Básica", "cidade": "Belo Horizonte", "estados": ["Minas Gerais"], "remocoes": 5 },
+    { "fornecedor": "Bem Me Care", "especifico": "UTI e Básica", "cidade": "Belo Horizonte", "cidade": "Contagem", "estados": ["Minas Gerais"], "remocoes": 4 },
+    { "fornecedor": "Fornecedor 2", "especifico": "Especialidade X", "cidade": "Belo Horizonte", "estados": ["Todos"], "remocoes": 12 },
+  ]},
   { "nome": "UNIMED JUIZ DE FORA", "pct": null, "fornecedores": []}
 ]
+
