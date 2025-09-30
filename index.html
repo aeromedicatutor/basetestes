@@ -44,8 +44,9 @@
 
   /* Status bolinha + rótulo */
   .dot{width:.55rem;height:.55rem;border-radius:999px;display:inline-block;box-shadow:0 0 0 2px #fff}
-  .ok{background:#10b981} /* Treinado */
-  .no{background:#ef4444} /* Não treinado */
+  .dot.ok{background:#10b981}/* Treinado */
+  .dot.no{background:#ef4444}/* Não treinado */
+  .status-label{background:transparent}
   .status-label{font-size:.78rem;font-weight:700;margin-right:.25rem}
   .status-label.ok{color:#10b981}
   .status-label.no{color:#ef4444}
@@ -394,3 +395,4 @@ load();
 </script>
 </body>
 </html>
+
