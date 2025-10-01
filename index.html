@@ -1,405 +1,331 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Painel • Contratantes & Fornecedores</title>
-<meta name="description" content="Painel em duas colunas com contratantes e fornecedores, alimentado por JSON.">
+<title>Painel | Contratantes & Fornecedores</title>
+<meta name="color-scheme" content="light dark" />
 <style>
-  /* ===== Reset ===== */
-  *,*::before,*::after{box-sizing:border-box}
-  html,body{height:100%;margin:0}
-  body{
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    background:
-      radial-gradient(1200px 500px at 10% -10%, #fff4e5 0%, transparent 60%),
-      radial-gradient(1000px 500px at 110% 110%, #ffe1c0 0%, transparent 60%),
-      #fff7f0;
-    color:#1f2937; line-height:1.35; padding: 2rem;
-  }
-
-  /* ===== Grid de duas ilhas ===== */
-  .grid{max-width:1200px;margin:0 auto;display:grid;gap:18px;grid-template-columns:1fr 1fr}
-  @media (max-width:980px){.grid{grid-template-columns:1fr}}
-
-  .island{
-    background:#fff;border:1px solid #eef2f7;border-radius:16px;
-    box-shadow:0 10px 30px rgba(24,39,75,.08),0 2px 8px rgba(24,39,75,.04);
-    display:grid;grid-template-rows:auto auto 1fr;min-height:60vh
-  }
-  header.hd{padding:20px 22px 10px;background:linear-gradient(180deg,#ffffff 0%,#fafafa 100%);border-bottom:1px solid #eef2f7}
-  .hd h2{margin:0;font-weight:800;letter-spacing:-.02em;font-size:clamp(1.0rem,.8rem + .8vw,1.5rem)}
-
-  .subsearch{display:flex;gap:.6rem;align-items:center;padding:10px 22px;border-bottom:1px solid #eef2f7}
-  .subsearch .box{flex:1;display:flex;gap:.5rem;align-items:center;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:12px;padding:.6rem .8rem}
-  .subsearch input{width:100%;border:0;background:transparent;outline:none;font-size:.95rem}
-  .subsearch small{color:#6b7280}
-
-  main.list{padding:14px 16px 18px;overflow:auto}
-
-  /* ===== Card ===== */
-  .card{border:1px solid #eef2f7;border-radius:14px;background:#fff;padding:12px 12px 10px;margin-bottom:12px}
-  .row{display:grid;grid-template-columns:1fr auto;gap:.75rem;align-items:center}
-  .row h3{margin:0;font-size:1rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.5rem}
-
-  /* Status: bolinha + rótulo */
-  .dot{width:.55rem;height:.55rem;border-radius:999px;display:inline-block;box-shadow:0 0 0 2px #fff}
-  .dot.no{background:#ef4444}   /* Não treinado */
-  .dot.ok{background:#10b981}   /* Treinado */
-  .dot.use{background:#3b82f6}  /* Em uso */
-
-  .status-label{font-size:.78rem;font-weight:700;margin-right:.25rem;background:transparent}
-  .status-label.no{color:#ef4444}
-  .status-label.ok{color:#10b981}
-  .status-label.use{color:#3b82f6}
-
-  /* Badge de % */
-  .badge{font-variant-numeric:tabular-nums;background:#ecfdf5;color:#065f46;border:1px solid #d1fae5;
-    padding:.25rem .5rem;border-radius:999px;font-size:.85rem;font-weight:700}
-
-  .toggle{border:1px solid #e5e7eb;background:#fff;border-radius:10px;padding:.35rem .55rem;cursor:pointer;font-weight:700;min-width:2.1rem;text-align:center}
-  .progress{height:8px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin-top:8px}
-  .bar{height:100%;width:0%;background:linear-gradient(90deg,#4ade80,#16a34a);transition:width .5s ease}
-
-  .details{display:none;padding-top:10px;border-top:1px dashed #e5e7eb;margin-top:10px}
-  .details.open{display:block}
-
-  /* Tabela de fornecedores dentro do contratante */
-  .supplier-head,.supplier-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;gap:.6rem;align-items:start}
-  .supplier-head{font-size:.85rem;color:#6b7280;margin-bottom:.4rem}
-  .supplier-row + .supplier-row{margin-top:.5rem}
-  .chip{display:inline-block;padding:.2rem .5rem;border-radius:999px;font-size:.8rem;background:#f3f4f6;border:1px solid #e5e7eb;margin-right:.35rem;margin-bottom:.35rem;white-space:nowrap}
-  .btn-supplier{display:inline-flex;align-items:center;justify-content:center;padding:.45rem .9rem;background:#059669;color:#fff;border-radius:10px;font-weight:700;pointer-events:none}
-
-  .empty{color:#6b7280;font-size:.95rem;padding:.5rem 0}
-  .error{background:#fef2f2;color:#7f1d1d;border:1px solid #fee2e2;padding:.75rem 1rem;border-radius:10px;margin:12px 0}
+:root{
+  --bg:#0b0c10; --card:#151821; --muted:#94a3b8; --text:#e5e7eb; --border:#252a35;
+  --accent:#22c55e; --accent-iris:#3b82f6; --accent-ded:#a855f7;
+  --red:#ef4444; --green:#22c55e; --blue:#3b82f6;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f7fb; --card:#fff; --muted:#475569; --text:#0f172a; --border:#e5e7eb; }
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font:14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color:var(--text); background: radial-gradient(1200px 600px at 10% -10%, #151a26 0%, transparent 60%), var(--bg);
+  min-width:320px;
+}
+/* Topo */
+.topbar{
+  display:flex; gap:16px; align-items:center; justify-content:space-between;
+  padding:20px clamp(16px,4vw,36px); border-bottom:1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), transparent 40%);
+  position:sticky; top:0; z-index:10; backdrop-filter: blur(6px);
+}
+.topbar h1{margin:0; font-size:clamp(18px, 2.5vw, 24px)}
+.actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.actions input, .actions select{
+  background: var(--card); color:var(--text);
+  border:1px solid var(--border); border-radius:10px; padding:10px 12px;
+  outline:none; min-width: 200px;
+}
+.actions select{min-width: 170px}
+/* Layout */
+.container{padding:24px clamp(16px,4vw,36px); display:grid; gap:24px}
+/* Cards */
+.cards{display:grid; gap:14px; grid-template-columns: repeat(5, minmax(160px,1fr));}
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px;
+  display:flex; flex-direction:column; gap:6px; box-shadow:0 6px 20px rgba(0,0,0,.1);
+}
+.card.big{grid-column: span 2;}
+.card.big.green .card-value{ color:var(--accent); font-size:36px }
+.card-title{color:var(--muted); font-weight:600; font-size:12px; letter-spacing:.3px}
+.card-value{font-size:28px; font-weight:700}
+.card-row{display:flex; align-items:center; gap:10px}
+.progress{width:100%; height:8px; background:rgba(148,163,184,.2); border-radius:8px; overflow:hidden; border:1px solid var(--border)}
+.progress div{height:100%; width:0}
+#barIris{background: var(--accent-iris)}
+#barDedalus{background: var(--accent-ded)}
+/* Tabela */
+.table-wrap{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px}
+.tabs{display:flex; gap:8px; padding:8px}
+.tab{background:transparent; border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:10px; cursor:pointer}
+.tab.active{background: rgba(148,163,184,.15)}
+.table-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding:6px 8px 12px 8px}
+.table-head h2{margin:0; font-size:18px}
+.table-head small{color:var(--muted)}
+.table-responsive{overflow:auto; border-radius:10px; border:1px solid var(--border)}
+table{width:100%; border-collapse: separate; border-spacing:0}
+thead th{
+  position: sticky; top:0; z-index: 1;
+  background: linear-gradient(180deg, rgba(255,255,255,.02), transparent 60%), var(--card);
+  border-bottom:1px solid var(--border); color:var(--muted); text-align:left;
+  padding:10px 12px; font-size:12px; letter-spacing:.3px; cursor:pointer; user-select:none;
+}
+tbody td{padding:10px 12px; border-bottom:1px dashed var(--border); white-space:nowrap}
+tbody tr:hover{background: rgba(148,163,184,.08)}
+.col-status{display:flex; align-items:center; gap:10px}
+.status-dot{width:10px; height:10px; border-radius:50%; display:inline-block; flex:none}
+.status-dot.red{background: var(--red)}
+.status-dot.green{background: var(--green)}
+.status-dot.blue{background: var(--blue)}
+.status-text{font-weight:600}
+/* Rodapé */
+.footer{padding:30px clamp(16px,4vw,36px); color:var(--muted); display:flex; align-items:center; justify-content:center; border-top:1px solid var(--border)}
+/* Responsivo */
+@media (max-width: 1200px){ .cards{grid-template-columns: repeat(3, 1fr)} .card.big{grid-column: span 3} }
+@media (max-width: 800px){ .cards{grid-template-columns: repeat(2, 1fr)} .card.big{grid-column: span 2} }
+@media (max-width: 560px){
+  .cards{grid-template-columns: 1fr}
+  thead th:nth-child(5),tbody td:nth-child(5),
+  thead th:nth-child(6),tbody td:nth-child(6),
+  thead th:nth-child(7),tbody td:nth-child(7){display:none}
+}
 </style>
 </head>
 <body>
+  <header class="topbar">
+    <h1>Painel</h1>
+    <div class="actions">
+      <input id="searchInput" type="search" placeholder="Buscar por nome, CNPJ, grupo..." aria-label="Buscar" />
+      <select id="statusFilter" aria-label="Filtrar por status">
+        <option value="">Todos os status</option>
+        <option value="nao_treinado">Não treinado</option>
+        <option value="treinado">Treinado</option>
+        <option value="em_uso">Em uso</option>
+      </select>
+      <select id="listaFilter" aria-label="Filtrar por lista">
+        <option value="">Contratantes & Fornecedores</option>
+        <option value="contratantes">Apenas Contratantes</option>
+        <option value="fornecedores">Apenas Fornecedores</option>
+      </select>
+    </div>
+  </header>
 
-  <div class="grid" role="region" aria-label="Painel em duas colunas">
-    <!-- ===== ILHA: CONTRATANTES ===== -->
-    <section class="island" aria-label="Contratantes">
-      <header class="hd"><h2>Contratantes</h2></header>
-      <div class="subsearch">
-        <div class="box">🔎 <input id="qContr" placeholder="Pesquisar contratante…" /></div>
-        <small id="countContr"></small>
+  <main class="container">
+    <section class="cards">
+      <div class="card big green">
+        <div class="card-title">Meta Contratante</div>
+        <div class="card-value" id="kpiMeta">70%</div>
       </div>
-      <main class="list">
-        <div id="listContr"></div>
-        <div id="errContr"></div>
-      </main>
+
+      <div class="card">
+        <div class="card-title">Alcançado (IRIS)</div>
+        <div class="card-value" id="kpiIris">—</div>
+        <div class="progress"><div id="barIris"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Alcançado (Dedalus)</div>
+        <div class="card-value" id="kpiDedalus">—</div>
+        <div class="progress"><div id="barDedalus"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Total Contratantes</div>
+        <div class="card-row">
+          <span class="status-dot blue" aria-hidden="true"></span>
+          <span class="card-value" id="kpiContrTotal">—</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Total Fornecedores</div>
+        <div class="card-row">
+          <span class="status-dot green" aria-hidden="true"></span>
+          <span class="card-value" id="kpiFornTotal">—</span>
+        </div>
+      </div>
     </section>
 
-    <!-- ===== ILHA: FORNECEDORES ===== -->
-    <section class="island" aria-label="Fornecedores">
-      <header class="hd"><h2>Fornecedores</h2></header>
-      <div class="subsearch">
-        <div class="box">🔎 <input id="qForn" placeholder="Pesquisar fornecedor…" /></div>
-        <small id="countForn"></small>
+    <section class="table-wrap">
+      <div class="tabs">
+        <button class="tab active" data-tab="contratantes">Contratantes</button>
+        <button class="tab" data-tab="fornecedores">Fornecedores</button>
       </div>
-      <main class="list">
-        <div id="topForn"></div>     <!-- Top fornecedores com barra -->
-        <div id="listForn"></div>    <!-- Demais fornecedores -->
-        <div id="errForn"></div>
-      </main>
+
+      <div class="table-head">
+        <h2 id="tableTitle">Contratantes</h2>
+        <small id="resultInfo">—</small>
+      </div>
+
+      <div class="table-responsive">
+        <table id="mainTable">
+          <thead>
+            <tr>
+              <th data-sort="status">Status</th>
+              <th data-sort="nome">Nome</th>
+              <th data-sort="cnpj">CNPJ</th>
+              <th data-sort="grupo">Grupo</th>
+              <th data-sort="responsavel">Responsável</th>
+              <th data-sort="email">E-mail</th>
+              <th data-sort="telefone">Telefone</th>
+              <th data-sort="atualizado_em">Atualizado em</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
     </section>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <span>Atualize os dados em <code>data.json</code> e publique no GitHub Pages.</span>
+  </footer>
+
+  <template id="rowTemplate">
+    <tr>
+      <td class="col-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="status-text"></span>
+      </td>
+      <td class="col-nome"></td>
+      <td class="col-cnpj"></td>
+      <td class="col-grupo"></td>
+      <td class="col-responsavel"></td>
+      <td class="col-email"></td>
+      <td class="col-telefone"></td>
+      <td class="col-atualizado"></td>
+    </tr>
+  </template>
 
 <script>
-/* ===== Config ===== */
-const DATA_VERSION = "v6";
-const DATA_URL = `data/app_data.json?v=${encodeURIComponent(DATA_VERSION)}`;
+/* ====== JS inline (lê data.json e monta o painel) ====== */
+const STATUS_MAP = {
+  "nao_treinado": { cls: "red",   label: "Não treinado" },
+  "treinado":     { cls: "green", label: "Treinado" },
+  "em_uso":       { cls: "blue",  label: "Em uso" }
+};
+let RAW = { contratantes: [], fornecedores: [], meta_contratante_pct: 70, progresso: {} };
+let ACTIVE_TAB = "contratantes";
+let sortState = { key: null, dir: 1 };
 
-/* ===== Helpers ===== */
-function parsePct(val){
-  if(val===null||val===undefined||val==="----") return null;
-  if(typeof val==="number") return val;
-  const s = String(val).replace("%","").replace(",",".").trim();
-  const n = Number(s); return Number.isFinite(n)? n : null;
-}
-function createEl(tag, props={}, html=""){
-  const el=document.createElement(tag);
-  Object.entries(props).forEach(([k,v])=>{
-    if(k==="className") el.className=v;
-    else if(k in el) el[k]=v;
-    else el.setAttribute(k,v);
-  });
-  if(html) el.innerHTML = html;
-  return el;
-}
-const toArray = (val)=>{ if(val==null||val==="")return []; if(Array.isArray(val))return val; return String(val).split(",").map(s=>s.trim()).filter(Boolean); };
-const chipHtml = (arr)=> (arr.length? arr.map(x=>`<span class="chip">${x}</span>`).join("") : `<span class="chip">—</span>`);
-const hasReembolso = (s)=> /reembolso/i.test(String(s||""));
+const $ = (s, c=document)=>c.querySelector(s);
+const $$ = (s, c=document)=>Array.from(c.querySelectorAll(s));
 
-/* Novo: status composto a partir de em_uso e treinado */
-function statusInfo(obj){
-  if (obj && obj.em_uso) return { cls: "use", label: "Em uso" };
-  if (obj && obj.treinado) return { cls: "ok", label: "Treinado" };
-  return { cls: "no", label: "Não treinado" };
-}
+document.addEventListener("DOMContentLoaded", async () => {
+  const tableBody   = $("#tableBody");
+  const rowTemplate = $("#rowTemplate");
+  const resultInfo  = $("#resultInfo");
 
-/* ===== Estado ===== */
-let CONTRATANTES=[], FORNECEDORES=[], FORNECEDORES_TOP=[];
-
-/* ===== CONTRATANTES ===== */
-const listContr = document.getElementById("listContr");
-const countContr = document.getElementById("countContr");
-
-function renderContratantes(q=""){
-  listContr.innerHTML="";
-  const term = q.trim().toLowerCase();
-  const arr = [...CONTRATANTES]
-    .filter(c=>!hasReembolso(c.nome) && (!term || c.nome.toLowerCase().includes(term)))
-    .sort((a,b)=>{
-      const ap=parsePct(a.pct), bp=parsePct(b.pct);
-      if(ap==null && bp==null) return a.nome.localeCompare(b.nome);
-      if(ap==null) return 1; if(bp==null) return -1; return bp-ap;
-    });
-
-  countContr.textContent = `${arr.length} contratante${arr.length===1?"":"s"}`;
-
-  if(!arr.length){
-    listContr.appendChild(createEl("div",{className:"empty"},"Nenhum contratante encontrado."));
-    return;
-  }
-  arr.forEach(c=> listContr.appendChild(makeContrCard(c)));
-}
-
-function makeContrCard(c){
-  const pct=parsePct(c.pct);
-  const id="ctr_"+btoa(c.nome).replace(/=/g,"");
-  const card=createEl("div",{className:"card",role:"region","aria-label":c.nome});
-
-  const st = statusInfo(c);
-
-  const row=createEl("div",{className:"row"});
-  row.innerHTML = `
-    <h3>
-      <span class="dot ${st.cls}"></span>
-      <span class="status-label ${st.cls}">${st.label}</span>
-      ${c.nome}
-    </h3>
-    <div>
-      <span class="badge">${pct==null?"—":pct.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%</span>
-      <button class="toggle" aria-controls="${id}" aria-expanded="false">+</button>
-    </div>
-  `;
-
-  const progress=createEl("div",{className:"progress"});
-  const bar=createEl("div",{className:"bar"});
-  progress.appendChild(bar);
-
-  const details=createEl("div",{className:"details",id});
-  const head=createEl("div",{className:"supplier-head"},`
-    <div><strong>Fornecedor</strong></div>
-    <div><strong>Tipo</strong></div>
-    <div><strong>Cidade</strong></div>
-    <div><strong>Estados</strong></div>
-    <div><strong>Remoções</strong></div>
-  `);
-  details.appendChild(head);
-
-  if(Array.isArray(c.fornecedores) && c.fornecedores.length){
-    c.fornecedores.forEach(grupo=>{
-      const fornecedor = String(grupo.fornecedor??"").trim()||"—";
-      const especifico = String(grupo.especifico??"").trim()||"—";
-      const cidades = toArray(grupo.cidade ?? grupo.cidades);
-      const estados = toArray(grupo.estados);
-      const remRaw = (grupo.remocoes !== undefined ? grupo.remocoes : grupo["remoções"]);
-      const remArr = Array.isArray(remRaw)? remRaw : toArray(remRaw);
-      const remHtml = Number.isFinite(remRaw)? `<span class="chip">${remRaw}</span>` : chipHtml(remArr);
-
-      const r=createEl("div",{className:"supplier-row"});
-      r.innerHTML = `
-        <div><span class="btn-supplier">${fornecedor}</span></div>
-        <div>${especifico||"—"}</div>
-        <div>${chipHtml(cidades)}</div>
-        <div>${chipHtml(estados)}</div>
-        <div>${remHtml}</div>
-      `;
-      details.appendChild(r);
-    });
-  } else {
-    details.appendChild(createEl("div",{className:"empty"},"Nenhum fornecedor cadastrado neste contratante."));
-  }
-
-  card.appendChild(row);
-  card.appendChild(progress);
-  card.appendChild(details);
-
-  requestAnimationFrame(()=>{ bar.style.width = (pct==null?0:Math.max(0,Math.min(100,pct)))+"%"; });
-
-  const toggleBtn = row.querySelector(".toggle");
-  toggleBtn.addEventListener("click", ()=>{
-    const open = details.classList.toggle("open");
-    toggleBtn.textContent = open ? "–" : "+";
-    toggleBtn.setAttribute("aria-expanded", String(open));
-  });
-
-  return card;
-}
-
-/* ===== FORNECEDORES (TOP + demais) ===== */
-const topWrap = document.getElementById("topForn");
-const listForn = document.getElementById("listForn");
-const countForn = document.getElementById("countForn");
-
-function renderTopFornecedores(){
-  topWrap.innerHTML = "";
-  if(!FORNECEDORES_TOP.length) return;
-
-  FORNECEDORES_TOP
-    .filter(f=>!hasReembolso(f.nome))
-    .sort((a,b)=>{
-      const ap=parsePct(a.pct), bp=parsePct(b.pct);
-      if(ap==null && bp==null) return a.nome.localeCompare(b.nome);
-      if(ap==null) return 1; if(bp==null) return -1; return bp-ap;
-    })
-    .forEach(f=>{
-      const pct=parsePct(f.pct);
-      const id="top_"+btoa(f.nome).replace(/=/g,"");
-
-      const st = statusInfo(f);
-
-      const card=createEl("div",{className:"card"});
-      const row=createEl("div",{className:"row"});
-      row.innerHTML = `
-        <h3>
-          <span class="dot ${st.cls}"></span>
-          <span class="status-label ${st.cls}">${st.label}</span>
-          ${f.nome}
-        </h3>
-        <div>
-          <span class="badge">${pct==null?"—":pct.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%</span>
-          <button class="toggle" aria-controls="${id}" aria-expanded="false">+</button>
-        </div>
-      `;
-      const progress=createEl("div",{className:"progress"});
-      const bar=createEl("div",{className:"bar"});
-      progress.appendChild(bar);
-
-      const details=createEl("div",{className:"details",id});
-      const bloco=[];
-      if(f.tipo) bloco.push(`<div><strong>Tipo:</strong> ${f.tipo}</div>`);
-      if(f.cidade||f.cidades) bloco.push(`<div><strong>Cidade:</strong> ${chipHtml(toArray(f.cidade??f.cidades))}</div>`);
-      if(f.estados) bloco.push(`<div><strong>Estados:</strong> ${chipHtml(toArray(f.estados))}</div>`);
-      if(f.remocoes||f["remoções"]){
-        const raw=f.remocoes??f["remoções"]; const arr=Array.isArray(raw)?raw:toArray(raw);
-        bloco.push(`<div><strong>Remoções:</strong> ${Number.isFinite(raw)? `<span class="chip">${raw}</span>` : chipHtml(arr)}</div>`);
-      }
-      details.innerHTML = bloco.length? bloco.join("") : `<div class="empty">Sem detalhes cadastrados.</div>`;
-
-      card.appendChild(row);
-      card.appendChild(progress);
-      card.appendChild(details);
-      topWrap.appendChild(card);
-
-      requestAnimationFrame(()=>{ bar.style.width = (pct==null?0:Math.max(0,Math.min(100,pct)))+"%"; });
-
-      const toggleBtn = row.querySelector(".toggle");
-      toggleBtn.addEventListener("click", ()=>{
-        const open = details.classList.toggle("open");
-        toggleBtn.textContent = open ? "–" : "+";
-        toggleBtn.setAttribute("aria-expanded", String(open));
-      });
-    });
-}
-
-function renderFornecedores(q=""){
-  listForn.innerHTML="";
-  const term = q.trim().toLowerCase();
-  const topSet = new Set(FORNECEDORES_TOP.map(f=>f.nome.toLowerCase()));
-
-  const arr = [...FORNECEDORES]
-    .filter(f=> !hasReembolso(f.nome) && !topSet.has(f.nome.toLowerCase()) && (!term || f.nome.toLowerCase().includes(term)))
-    .sort((a,b)=> {
-      const ai = statusInfo(a), bi = statusInfo(b);
-      if (ai.cls !== bi.cls) { // Em uso (use) antes, depois ok, depois no
-        const order = { "use": 0, "ok": 1, "no": 2 };
-        return order[ai.cls] - order[bi.cls];
-      }
-      return a.nome.localeCompare(b.nome);
-    });
-
-  countForn.textContent = `${arr.length + FORNECEDORES_TOP.length} fornecedor${arr.length + FORNECEDORES_TOP.length === 1 ? "" : "es"}`;
-
-  if(!arr.length){
-    listForn.appendChild(createEl("div",{className:"empty"},"Nenhum fornecedor encontrado na lista geral."));
-    return;
-  }
-  arr.forEach(f=> listForn.appendChild(makeFornCard(f)));
-}
-
-function makeFornCard(f){
-  const id="frn_"+btoa(f.nome).replace(/=/g,"");
-  const card=createEl("div",{className:"card",role:"region","aria-label":f.nome});
-
-  const st = statusInfo(f);
-
-  const row=createEl("div",{className:"row"});
-  row.innerHTML = `
-    <h3>
-      <span class="dot ${st.cls}"></span>
-      <span class="status-label ${st.cls}">${st.label}</span>
-      ${f.nome}
-    </h3>
-    <button class="toggle" aria-controls="${id}" aria-expanded="false">+</button>
-  `;
-
-  const details=createEl("div",{className:"details",id});
-  const bloco=[];
-  if(f.tipo) bloco.push(`<div><strong>Tipo:</strong> ${f.tipo}</div>`);
-  if(f.cidade||f.cidades) bloco.push(`<div><strong>Cidade:</strong> ${chipHtml(toArray(f.cidade??f.cidades))}</div>`);
-  if(f.estados) bloco.push(`<div><strong>Estados:</strong> ${chipHtml(toArray(f.estados))}</div>`);
-  if(f.remocoes||f["remoções"]){
-    const raw=f.remocoes??f["remoções"]; const arr=Array.isArray(raw)?raw:toArray(raw);
-    bloco.push(`<div><strong>Remoções:</strong> ${Number.isFinite(raw)? `<span class="chip">${raw}</span>` : chipHtml(arr)}</div>`);
-  }
-  details.innerHTML = bloco.length? bloco.join("") : `<div class="empty">Sem detalhes cadastrados para este fornecedor.</div>`;
-
-  card.appendChild(row);
-  card.appendChild(details);
-
-  const toggleBtn = row.querySelector(".toggle");
-  toggleBtn.addEventListener("click", ()=>{
-    const open = details.classList.toggle("open");
-    toggleBtn.textContent = open ? "–" : "+";
-    toggleBtn.setAttribute("aria-expanded", String(open));
-  });
-
-  return card;
-}
-
-/* ===== Carregar JSON ===== */
-async function load(){
+  // Carrega JSON (sem cache para facilitar atualização via GitHub Pages)
   try{
-    const res = await fetch(DATA_URL, {cache:"no-store"});
-    if(!res.ok) throw new Error(`Falha ao carregar dados (${res.status})`);
-    const json = await res.json();
+    const res = await fetch("data.json", { cache: "no-store" });
+    if(!res.ok) throw new Error("Falha ao carregar data.json");
+    RAW = await res.json();
+  }catch(e){
+    console.error(e);
+  }
 
-    if(Array.isArray(json)){
-      CONTRATANTES = json; FORNECEDORES_TOP = []; FORNECEDORES = [];
-    }else{
-      CONTRATANTES = Array.isArray(json.contratantes) ? json.contratantes : [];
-      FORNECEDORES_TOP = Array.isArray(json.fornecedores_top) ? json.fornecedores_top : [];
-      FORNECEDORES = Array.isArray(json.fornecedores) ? json.fornecedores : [];
+  // KPIs
+  $("#kpiMeta").textContent = `${RAW.meta_contratante_pct ?? 70}%`;
+  const iris = toNumber(RAW?.progresso?.volume_iris_pct);
+  const deda = toNumber(RAW?.progresso?.volume_dedalus_pct);
+  setKpi("#kpiIris", "#barIris", iris);
+  setKpi("#kpiDedalus", "#barDedalus", deda);
+  $("#kpiContrTotal").textContent = (RAW.contratantes||[]).length;
+  $("#kpiFornTotal").textContent  = (RAW.fornecedores||[]).length;
+
+  // Abas
+  $$(".tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      $$(".tab").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      ACTIVE_TAB = btn.dataset.tab;
+      $("#tableTitle").textContent = ACTIVE_TAB[0].toUpperCase()+ACTIVE_TAB.slice(1);
+      render();
+    });
+  });
+
+  // Ordenação por cabeçalho
+  $$("thead th").forEach(th=>{
+    th.addEventListener("click", ()=>{
+      const key = th.dataset.sort;
+      if(!key) return;
+      if(sortState.key === key){ sortState.dir *= -1; } else { sortState.key = key; sortState.dir = 1; }
+      render();
+    });
+  });
+
+  // Filtros
+  $("#searchInput").addEventListener("input", debounce(render, 150));
+  $("#statusFilter").addEventListener("change", render);
+  $("#listaFilter").addEventListener("change", e => {
+    const v = e.target.value;
+    if(v === "contratantes"){ ACTIVE_TAB = "contratantes"; }
+    else if(v === "fornecedores"){ ACTIVE_TAB = "fornecedores"; }
+    else{ /* ambos: mantém a aba atual, mas a busca contempla a aba visível */ }
+    $("#tableTitle").textContent = ACTIVE_TAB[0].toUpperCase()+ACTIVE_TAB.slice(1);
+    $$(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab===ACTIVE_TAB));
+    render();
+  });
+
+  render();
+
+  function render(){
+    const query  = $("#searchInput").value.trim().toLowerCase();
+    const st     = $("#statusFilter").value;
+    const source = ACTIVE_TAB === "fornecedores" ? (RAW.fornecedores||[]) : (RAW.contratantes||[]);
+
+    let rows = source.filter(item => {
+      const hay = `${item.nome||""} ${item.cnpj||""} ${item.grupo||""} ${item.responsavel||""} ${item.email||""}`.toLowerCase();
+      const okQuery  = !query || hay.includes(query);
+      const okStatus = !st || (item.status === st);
+      return okQuery && okStatus;
+    });
+
+    if(sortState.key){
+      const k = sortState.key;
+      rows.sort((a,b)=>{
+        const av = (a[k] ?? "").toString().toLowerCase();
+        const bv = (b[k] ?? "").toString().toLowerCase();
+        if(av < bv) return -1 * sortState.dir;
+        if(av > bv) return  1 * sortState.dir;
+        return 0;
+      });
     }
 
-    renderTopFornecedores();
-    renderFornecedores(document.getElementById("qForn").value||"");
-    renderContratantes(document.getElementById("qContr").value||"");
-  }catch(e){
-    document.getElementById("errContr").appendChild(createEl("div",{className:"error"},"Erro ao carregar dados: "+e.message));
-    document.getElementById("errForn").appendChild(createEl("div",{className:"error"},"Erro ao carregar dados: "+e.message));
+    tableBody.innerHTML = "";
+    for(const item of rows){
+      const tr = rowTemplate.content.firstElementChild.cloneNode(true);
+      const sm = STATUS_MAP[item.status] || { cls:"", label: (item.status||"—") };
+      $(".status-dot", tr).classList.add(sm.cls);
+      $(".status-text", tr).textContent = sm.label;
+      $(".col-nome", tr).textContent = item.nome || "—";
+      $(".col-cnpj", tr).textContent = item.cnpj || "—";
+      $(".col-grupo", tr).textContent = item.grupo || "—";
+      $(".col-responsavel", tr).textContent = item.responsavel || "—";
+      $(".col-email", tr).textContent = item.email || "—";
+      $(".col-telefone", tr).textContent = item.telefone || "—";
+      $(".col-atualizado", tr).textContent = formatDate(item.atualizado_em) || "—";
+      tableBody.appendChild(tr);
+    }
+
+    resultInfo.textContent = rows.length === 1 ? "1 resultado" : `${rows.length} resultados`;
   }
+});
+
+// Utils
+function setKpi(txtSel, barSel, val){
+  const txt = document.querySelector(txtSel);
+  const bar = document.querySelector(barSel);
+  if(val==null || isNaN(val)){ txt.textContent = "—"; bar.style.width = "0%"; return; }
+  const pct = clamp(val, 0, 100);
+  txt.textContent = pct.toFixed(1).replace(".", ",") + "%";
+  bar.style.width = pct + "%";
 }
-
-/* ===== Buscas ===== */
-document.getElementById("qContr").addEventListener("input",(e)=>renderContratantes(e.target.value));
-document.getElementById("qForn").addEventListener("input",(e)=>renderFornecedores(e.target.value));
-
-load();
+function debounce(fn, wait=200){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a),wait); }; }
+function toNumber(v){ if(v==null) return null; const s=String(v).replace(",", "."); const n = Number(s); return isNaN(n) ? null : n; }
+function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+function formatDate(iso){ if(!iso) return ""; const d=new Date(iso); return isNaN(d)? String(iso): d.toLocaleDateString("pt-BR"); }
 </script>
 </body>
 </html>
