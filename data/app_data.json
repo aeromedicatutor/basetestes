@@ -3,15 +3,15 @@
   "contratantes": [
     { "nome": "Unimed Nacional", "pct": 20.52, "treinado": false, "fornecedores": [] },
     { "nome": "Unimed Sete Lagoas", "pct": 16.74, "treinado": false, "fornecedores": [] },
-    { "nome": "Vivest", "pct": 12.17, "treinado": false, "fornecedores": [] },
+    { "nome": "Vivest", "pct": 12.17, "treinado": true, "fornecedores": [] },
     { "nome": "Unimed Centro Oeste", "pct": 6.99, "treinado": false, "em_uso": true, "fornecedores": [] },
-    { "nome": "PASA", "pct": 6.49, "treinado": false, "fornecedores": [] },
-    { "nome": "UNIMED GOVERNADOR VALADARES", "pct": 4.44, "treinado": false, "fornecedores": [] },
+    { "nome": "PASA", "pct": 6.49, "treinado": true, "fornecedores": [] },
+    { "nome": "UNIMED GOVERNADOR VALADARES", "pct": 4.44, "treinado": true, "fornecedores": [] },
     { "nome": "UNIMED SUL MINEIRA", "pct": 3.68, "treinado": true, "em_uso": true, "fornecedores": [] },
-    { "nome": "COPAS SAÚDE", "pct": 2.35, "treinado": false, "fornecedores": [] },
+    { "nome": "COPAS SAÚDE", "pct": 2.35, "treinado": true, "fornecedores": [] },
     { "nome": "UNIMED POÇOS DE CALDAS", "pct": 2.15, "treinado": false, "fornecedores": [] },
     { "nome": "CEMIG SAÚDE", "pct": 2.01, "treinado": false, "fornecedores": [] },
-    { "nome": "UNIMED VARGINHA", "pct": 1.91, "treinado": false, "fornecedores": [] },
+    { "nome": "UNIMED VARGINHA", "pct": 1.91, "treinado": true, "fornecedores": [] },
     { "nome": "UNIMED GERAIS DE MINAS", "pct": 1.81, "treinado": false, "fornecedores": [] },
     { "nome": "UNIMED INCONFIDENTES", "pct": 1.71, "treinado": false, "fornecedores": [] },
     { "nome": "UNIMED BELO HORIZONTE", "pct": 1.58, "treinado": false, "fornecedores": [] },
@@ -279,6 +279,7 @@
     { "nome": "Zelar Mov", "treinado": false }
   ]
 }
+
 
 
 
