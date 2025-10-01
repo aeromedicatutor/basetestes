@@ -25,21 +25,21 @@
     { "nome": "UNIMED JUIZ DE FORA", "pct": 0.00, "treinado": false, "em_uso": true, "fornecedores": [] }
   ],
   "fornecedores_top": [
-    { "nome": "Acura - Soluções em Saúde", "pct": 18.31, "treinado": false },
+    { "nome": "Acura - Soluções em Saúde", "pct": 18.31, "em_uso": true },
     { "nome": "Bem Estar Remoções", "pct": 7.01, "treinado": true },
-    { "nome": "Unimed Centro Oeste", "pct": 5.73, "treinado": false },
-    { "nome": "Vitalle Remoções Médicas", "pct": 3.78, "treinado": false },
-    { "nome": "Le France", "pct": 3.74, "treinado": false },
-    { "nome": "Unimed Sul Mineira", "pct": 2.81, "treinado": false },
-    { "nome": "Medicall Prestação de Serviços a Saúde Eirelli", "pct": 2.48, "treinado": false },
-    { "nome": "Getap Med", "pct": 2.39, "treinado": false },
+    { "nome": "Unimed Centro Oeste", "pct": 5.73, "treinado": true },
+    { "nome": "Vitalle Remoções Médicas", "pct": 3.78, "treinado": true },
+    { "nome": "Le France", "pct": 3.74, "treinado": true },
+    { "nome": "Unimed Sul Mineira", "pct": 2.81, "treinado": true },
+    { "nome": "Medicall Prestação de Serviços a Saúde Eirelli", "pct": 2.48, "treinado": true },
+    { "nome": "Getap Med", "pct": 2.39, "treinado": true },
     { "nome": "Medsul", "pct": 2.20, "treinado": true },
     { "nome": "Unimed Poços de Caldas", "pct": 1.86, "treinado": false },
-    { "nome": "Cardiocenter Especialidades Médicas LTDA", "pct": 1.22, "treinado": false },
-    { "nome": "Udicor Gestão em Saúde", "pct": 1.01, "treinado": false },
-    { "nome": "CEMAC - Centro Especialidades", "pct": 0.99, "treinado": false },
-    { "nome": "Pontual G7", "pct": 0.97, "treinado": false },
-    { "nome": "SOS Remoções LTDA", "pct": 0.91, "treinado": false },
+    { "nome": "Cardiocenter Especialidades Médicas LTDA", "pct": 1.22, "treinado": true },
+    { "nome": "Udicor Gestão em Saúde", "pct": 1.01, "treinado": true },
+    { "nome": "CEMAC - Centro Especialidades", "pct": 0.99, "treinado": true },
+    { "nome": "Pontual G7", "pct": 0.97, "treinado": true },
+    { "nome": "SOS Remoções LTDA", "pct": 0.91, "treinado": true },
     { "nome": "Anilmed", "pct": 0.89, "treinado": false },
     { "nome": "H-med", "pct": null, "treinado": false }
   ],
@@ -279,6 +279,7 @@
     { "nome": "Zelar Mov", "treinado": false }
   ]
 }
+
 
 
 
