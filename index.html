@@ -19,7 +19,9 @@
 html,body{height:100%}
 body{
   margin:0; font:14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  color:var(--text); background: radial-gradient(1200px 600px at 10% -10%, #151a26 0%, transparent 60%), var(--bg);
+  color:var(--text);
+  /* fundo laranja em gradiente */
+  background: linear-gradient(160deg, #FFF3E0 0%, #FFB347 40%, #FF7A18 100%);
   min-width:320px;
 }
 /* Topo */
@@ -329,6 +331,7 @@ function formatDate(iso){ if(!iso) return ""; const d=new Date(iso); return isNa
 </script>
 </body>
 </html>
+
 
 
 
