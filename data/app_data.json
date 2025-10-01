@@ -26,21 +26,29 @@
   ],
   "fornecedores_top": [
     { "nome": "Acura - Soluções em Saúde", "pct": 18.31, "em_uso": true },
-    { "nome": "Bem Estar Remoções", "pct": 7.01, "treinado": true },
-    { "nome": "Unimed Centro Oeste", "pct": 5.73, "treinado": true },
-    { "nome": "Vitalle Remoções Médicas", "pct": 3.78, "treinado": true },
-    { "nome": "Le France", "pct": 3.74, "treinado": true },
-    { "nome": "Unimed Sul Mineira", "pct": 2.81, "treinado": true },
-    { "nome": "Medicall Prestação de Serviços a Saúde Eirelli", "pct": 2.48, "treinado": true },
-    { "nome": "Getap Med", "pct": 2.39, "treinado": true },
-    { "nome": "Medsul", "pct": 2.20, "treinado": true },
+    { "nome": "Bem Estar Remoções", "pct": 7.01, "em_uso": true },
+    { "nome": "Unimed Centro Oeste", "pct": 5.73, "em_uso": true },
+    { "nome": "Vitalle Remoções Médicas", "pct": 3.78, "em_uso": true },
+    { "nome": "Le France", "pct": 3.74, "em_uso": true },
+    { "nome": "Unimed Sul Mineira", "pct": 2.81, "em_uso": true },
+    { "nome": "Medicall Prestação de Serviços a Saúde Eirelli", "pct": 2.48, "em_uso": true },
+    { "nome": "Getap Med", "pct": 2.39, "em_uso": true },
+    { "nome": "Medvidas", "pct": 2.22, "treinado": false },
+    { "nome": "Medsul", "pct": 2.20, "em_uso": true },
+    { "nome": "America Remoções", "pct": 1.92, "treinado": false },
     { "nome": "Unimed Poços de Caldas", "pct": 1.86, "treinado": false },
-    { "nome": "Cardiocenter Especialidades Médicas LTDA", "pct": 1.22, "treinado": true },
-    { "nome": "Udicor Gestão em Saúde", "pct": 1.01, "treinado": true },
-    { "nome": "CEMAC - Centro Especialidades", "pct": 0.99, "treinado": true },
-    { "nome": "Pontual G7", "pct": 0.97, "treinado": true },
-    { "nome": "SOS Remoções LTDA", "pct": 0.91, "treinado": true },
-    { "nome": "Anilmed", "pct": 0.89, "treinado": false },
+    { "nome": "SEU", "pct": 1.82, "treinado": false },
+    { "nome": "Promed Santa Ângela", "pct": 1.49, "treinado": false },
+    { "nome": "Help Medic", "pct": 1.36, "treinado": false },
+    { "nome": "Intensiva", "pct": 1.33, "treinado": false },
+    { "nome": "Cardiocenter Especialidades Médicas LTDA", "pct": 1.22, "em_uso": true },
+    { "nome": "Trans medi", "pct": 1.10, "treinado": false },
+    { "nome": "Cenemed Remoção", "pct": 1.08, "treinado": false },
+    { "nome": "Udicor Gestão em Saúde", "pct": 1.01, "em_uso": true },
+    { "nome": "CEMAC - Centro Especialidades", "pct": 0.99, "em_uso": true },
+    { "nome": "Pontual G7", "pct": 0.97, "em_uso": true },
+    { "nome": "SOS Remoções LTDA", "pct": 0.91, "treinado": false },
+    { "nome": "Anilmed", "pct": 0.89, "treinado": true },
     { "nome": "H-med", "pct": null, "treinado": false }
   ],
   "fornecedores": [
@@ -279,6 +287,7 @@
     { "nome": "Zelar Mov", "treinado": false }
   ]
 }
+
 
 
 
