@@ -1,0 +1,31 @@
+{
+  "meta_contratante_pct": 70,
+  "progresso": {
+    "volume_iris_pct": 63.5,
+    "volume_dedalus_pct": 71.2
+  },
+  "contratantes": [
+    {
+      "nome": "ACME Logística LTDA",
+      "cnpj": "12.345.678/0001-90",
+      "grupo": "Logística",
+      "responsavel": "Maria Alves",
+      "email": "maria@acme.com.br",
+      "telefone": "(11) 98765-4321",
+      "status": "nao_treinado",
+      "atualizado_em": "2025-09-28"
+    }
+  ],
+  "fornecedores": [
+    {
+      "nome": "Fornecedor X",
+      "cnpj": "98.765.432/0001-10",
+      "grupo": "Tecnologia",
+      "responsavel": "João Pereira",
+      "email": "joao@fx.com",
+      "telefone": "(21) 99888-7777",
+      "status": "em_uso",
+      "atualizado_em": "2025-10-01"
+    }
+  ]
+}
